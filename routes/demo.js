@@ -14,13 +14,25 @@ router.get('/event',function(req,res){
 
 //create an event
 router.post('/event',function(req,res){
-    res.send({
-        // body:req.body,
-        name:req.body.name,
-        age:req.body.age,
-        dob:req.body.dob,
-        message:'on create route'
-    })
+        let user=new userModel(req.body)
+        user.save()
+        // userModel.create(req.body).then(function(success,failure){
+        //     if(success){
+        //         res.send(success)
+        //     }else{
+        //         res.send(failure)
+        //     }
+        // })
+        res.send("there is an error")
+
+
+    // res.send({
+    //     // body:req.body,
+    //     name:req.body.name,
+    //     age:req.body.age,
+    //     dob:req.body.dob,
+    //     message:'on create route'
+    // })
 })
 
 //update an event

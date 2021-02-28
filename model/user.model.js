@@ -10,7 +10,7 @@ const userSchema = new schema({
         type: Number,
     },
     dob: {
-        type: Date,
+        type: String,
         required: [true, "DOB is required"]
     },
     mobile: String
