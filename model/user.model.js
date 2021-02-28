@@ -13,7 +13,10 @@ const userSchema = new schema({
         type: String,
         required: [true, "DOB is required"]
     },
-    mobile: String
+    mobile: {
+        type:String,
+        unique:true
+    }
 })
 //create a model using the schema called userSchema
 const userModel=new mongoose.model('user_details',userSchema)
