@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema;
 
 let eventSchema = new schema({
-    eventid: {
+    id: {
         type: String,
         index: true,
         unique: true,
