@@ -6,7 +6,7 @@ const router = express.Router();
 const userModel = require('../model/user.model')
 //select alll events
 router.get('/event', function (req, res, next) {
-    userModel.find({}, { _id: 0 }, (err, data) => {
+    userModel.find({}, { _id: 0,__v:0 }, (err, data) => {
         if (!err) {
             res.send(data)
         }else{
