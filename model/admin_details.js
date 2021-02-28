@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const schema=mongoose.schema;
+const schema=mongoose.Schema;
 let adminSchema=new schema({
     userid: {
         type: String,
@@ -13,23 +13,14 @@ let adminSchema=new schema({
         type: String,
         require:true
     },
-    emailid: {
+    email: {
         type: String,
         required: true,
         match: /.+\@.+\..+/,
         index: true
     }
-}, { collection: 'admin_details' });
+});
 
-usersSchema.statics.getId = function (_userid, cb) {
-    console.log("userid" + _userid);
-    return UserModel.find({ userid: new RegExp(_userid, 'i') }, { userid: 1, _id: 1 }, cb);
-};
-
-usersSchema.methods.getUserId = function (_userid, cb) {
-    console.log("userid" + _userid);
-    return UserModel.find({ userid: new RegExp(_userid, 'i') }, { userid: 1, _id: 1 }, cb);
-};
 AdminModel = mongoose.model('AdminDetails', adminSchema);
 
-module.exports = { AdminModel };
+module.exports = AdminModel;
