@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Invitation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vollkorn:ital@0;1&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vollkorn', serif;
+        }
+
+        .home {
+            width: auto;
+            height: 100vh;
+            /* display: flex; */
+            /* align-items: center; */
+            /* background: linear-gradient(rgba(10,225,130,0.5),rgba(100,225,0,0.7)); */
+            display: flex;
+            align-items: center;
+            /* align-content: center;
+align-self: center; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home">
+        <div class="viewInvitee">
+            <label for="">List of invitee</label>
+            <table id="inviteeList">
+            </table>
+        </div>
+        <div class="addInvitee">
+            <input type="text" placeholder="Name" id="name">
+            <input type="email" placeholder="Email" id="email">
+            <input type="button" onclick="addInvitee()" value="Add Invitee">
+        </div>
+        <div class="sendMail">
+            <textarea style="display: none;" placeholder="Enter your email message here" name="message" id="message" cols="15" rows="10">Respected sir/madam,
+                We are gradually invite your students to participate our Department function called Hover
+                Thank you</textarea>
+            <input type="button" id="mailbtn" onclick="sendMail()" value="Send mail">
+        </div>
+        <div id="notify"></div>
+    </div>
+    <script>
+        function sendMail() {
+            var http = new XMLHttpRequest();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    alert("message sent successfully with response : " + this.responseText)
+                    document.getElementById('mailbtn').disabled = true
+                }
+            }
+            http.open("post", "/admin/sendMail", true)
+            http.setRequestHeader("Content-Type", "application/json")
+            http.send(JSON.stringify({ message: document.getElementById('message').innerText }))
+        }
+        function addInvitee() {
+
+
+            var http = new XMLHttpRequest();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resObj = JSON.parse(this.responseText)
+                    var pnode = document.createElement('tr')
+                    var cn1 = document.createElement('td')
+                    cn1.innerHTML = resObj.name
+                    var cn2 = document.createElement('td')
+                    cn2.innerHTML = resObj.email
+                    pnode.appendChild(cn1)
+                    pnode.appendChild(cn2)
+                    document.getElementById('inviteeList').appendChild(pnode)
+
+                }
+            }
+            http.open("post", "/admin/addInvitee", true)
+            http.setRequestHeader("Content-Type", "application/json")
+            console.log(JSON.stringify({ name: document.getElementById('name').value, email: document.getElementById('email').value }))
+            http.send(JSON.stringify({ name: document.getElementById('name').value, email: document.getElementById('email').value }))
+
+        }
+
+        window.onload = () => {
+            console.log('inside onload')
+            var http = new XMLHttpRequest();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resObj = JSON.parse(this.responseText)
+                    resObj.forEach(ele => {
+                        var pnode = document.createElement('tr')
+                        var cn1 = document.createElement('td')
+                        cn1.innerHTML = ele.name
+                        var cn2 = document.createElement('td')
+                        cn2.innerHTML = ele.email
+                        pnode.appendChild(cn1)
+                        pnode.appendChild(cn2)
+                        document.getElementById('inviteeList').appendChild(pnode)
+                    });
+                }
+            }
+            http.open("get", "/admin/getInvitee", true)
+            http.setRequestHeader("Content-Type", "application/json")
+            http.send()
+        }
+    </script>
+</body>
+
+</html>

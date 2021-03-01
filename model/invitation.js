@@ -7,11 +7,6 @@ let invitaionSchema = new schema({
         type: String,
         required: true,
         match: /.+\@.+\..+/,
-        index: true,
-        unique:true
-    },
-    phone_no: {
-        type:Number,
         unique:true
     }
 })
