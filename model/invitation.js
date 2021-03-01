@@ -14,11 +14,15 @@ let invitaionSchema = new schema({
         type: String,
         required: true,
         match: /.+\@.+\..+/,
-        index: true
+        index: true,
+        unique:true
     },
-    phone_no: Number
+    phone_no: {
+        type:Number,
+        unique:true
+    }
 })
 
-invitationModel=mongoose.Model('invitation',invitaionSchema)
+invitationModel=mongoose.model('invitation',invitaionSchema)
 
 module.exports=invitationModel

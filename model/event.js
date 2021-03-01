@@ -11,7 +11,7 @@ let eventSchema = new schema({
     },
     event_name: String,
     start_date: {
-        type: Date,
+        type: String,
         default: new Date()
     },
     place: {
@@ -19,11 +19,11 @@ let eventSchema = new schema({
         city: { type: String },
         state: { type: String },
         country: { type: String },
-        pincode: { type: Number, required: true }
+        pincode: { type: String, required: true }
     },
     description: String
 })
 
-eventModel=mongoose.Model('events',eventSchema)
+eventModel=mongoose.model('events',eventSchema)
 
 module.exports=eventModel
