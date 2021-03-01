@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vollkorn:ital@0;1&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vollkorn', serif;
+        }
+
+        .home {
+            width: auto;
+            height: 100vh;
+            /* display: flex; */
+            /* align-items: center; */
+            /* background: linear-gradient(rgba(10, 225, 130, 0.5), rgba(100, 225, 0, 0.7)); */
+            display: flex;
+            align-items: center;
+            /* align-content: center;
+align-self: center; */
+        }
+
+        .login {
+            background-color: rgba(10, 225, 130, 0.5);
+            width: auto;
+            padding: 6%;
+            align-self: center;
+            border-radius: 10px;
+            box-shadow: 0 0 20px 4px black;
+            margin: 0 auto;
+        }
+
+        .login * {
+            display: block;
+            padding: 20px;
+            margin-top: 2%;
+            border-radius: 5px;
+            font-size: 20px;
+
+        }
+
+        .login input[type="submit"] {
+            background: rgba(10, 225, 130, 0.5);
+            margin: 0 auto;
+            margin-top: 5%;
+        }
+
+        .login input[type="submit"]:hover {
+            background: rosybrown;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .signup * {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home">
+        <div class="login">
+            <form action="">
+                <input class="form_input" focus type="text" name="name" placeholder="Your Name">
+                <input class="form_input" type="text" name="email" placeholder="Email address">
+                <input class="form_input" placeholder="password" type="password" name="password">
+                <input class="form_input" type="text" name="phone_no" placeholder="Your Mobile Number">
+                <input class="form_input" type="text" name="institution" placeholder="College">
+                <input type="button" onclick="submit_form()" value="Signup">
+            </form>
+            <h6 class="signup">Already have an account?<a href="login.html">Login</a></h6>
+        </div>
+    </div>
+</body>
+<script>
+    function submit_form() {
+        var input_data = document.querySelectorAll('.form_input')
+        input_data.forEach(element => {
+            if (element.value == "" || null) {
+                alert('please enter missed details')
+                return false
+            }
+        });
+        var signup = {
+            name: input_data[0].value,
+            email: input_data[1].value,
+            password: input_data[2].value,
+            phone_no: input_data[3].value,
+            institution: input_data[4].value
+        }
+        var http=new XMLHttpRequest();
+            http.onreadystatechange=function(){
+                if(this.readyState==4&&this.status==200){
+                    if(JSON.parse(this.responseText).status){
+                        document.cookie="email="+signup.email
+                        window.location="dashboard.html"
+                    }else{
+                        alert("there was a problem")
+                    }
+
+                }
+            }
+            http.open("post","http://localhost/user/signup",true)
+            http.setRequestHeader("Content-Type","application/json")
+            http.send(JSON.stringify(signup))
+    }
+</script>
+
+</html>

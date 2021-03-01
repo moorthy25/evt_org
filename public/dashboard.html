@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn:ital@0">
+    <title>Dashboard</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vollkorn', serif;
+        }
+
+        .home {
+            width: auto;
+            height: 100vh;
+            /* display: flex; */
+            /* align-items: center; */
+            /* background: linear-gradient(rgba(10,225,130,0.5),rgba(100,225,0,0.7)); */
+            display: flex;
+            align-items: center;
+            /* align-content: center;
+align-self: center; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home">
+        <div class="nav">
+            <ul class="navList">
+                <li value="home" onclick="toggle(this.value)">Home</li>
+                <li value="competition" onclick="toggle(this.value)">Competition</li>
+                <li><a href="index.html" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+        <div id="competition_div">
+            <label for="">Registered Competitions:</label>
+            <ul id="reg_com">
+
+            </ul>
+            <table>
+                <tr>
+                    <td>Select competition:</td>
+                    <td><select name="competition" onchange="fetch_price(this.value)" id="competition">
+                            <option value="">Please select...</option>
+                        </select></td>
+                </tr>
+                <tr>
+                    <td>Registration fee</td>
+                    <td id="amt"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button id="rzp-button1">Pay</button></td>
+
+                    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    <script>
+                        var options = {
+                            "key": "rzp_test_H0l7ruuVdzWaFR", // Enter the Key ID generated from the Dashboard
+                            "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                            "currency": "INR",
+                            "name": "AMC BCA Dept",
+                            "description": "Test Transaction for Hover registration",
+                            "image": "https://ams.americancollege.edu.in/ams/images/aclogin_logofinal.png",
+                            "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                            "callback_url": "http://localhost/dashboard.html",
+                            "prefill": {
+                                "name": "",
+                                "email": "",
+                                "contact": ""
+                            },
+                            "notes": {
+                                "address": "The American College,Madurai"
+                            },
+                            "theme": {
+                                "color": "#3399cc"
+                            }
+                        };
+                        
+                        document.getElementById('rzp-button1').onclick = function (e) {
+                            if (document.getElementById("amt").innerHTML == "" || null) {
+                                alert("select competition to checkout")
+                                return;
+                            }
+                            //initiate payment
+                            var http = new XMLHttpRequest();
+                            http.onreadystatechange = function () {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    var resObj = JSON.parse(this.responseText)
+                                    if (resObj.status) {
+                                        options.order_id = resObj.order.id
+                                        var rzp1 = new Razorpay(options);
+                                        rzp1.open();
+                                    }
+                                }
+                            }
+                            http.open("post", "/user/payment", true)
+                            http.setRequestHeader("Content-Type", "application/json")
+                            http.send(JSON.stringify({ amount: document.getElementById("amt").innerHTML,email: useremail ,
+                        competition_id: compet_id}))
+                            e.preventDefault();
+                        }
+                    </script>
+                </tr>
+            </table>
+        </div>
+        <div id="home">
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td id="username"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td id="uemail"></td>
+                </tr>
+                <tr>
+                    <td>College</td>
+                    <td id="college"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <script>
+var compet_id;
+        function fetch_price(com_id) {
+            document.getElementById('amt').innerHTML=""
+            compet_id=com_id
+            amt_tmp = competition_details.filter(val => val._id == com_id)[0].price * 100
+            options.amount = amt_tmp.toString()
+            document.getElementById('amt').innerHTML = competition_details.filter(val => val._id == com_id)[0].price
+        }
+
+        var competition_details = [];
+        var res;
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        var useremail;
+        window.onload = () => {
+            //verify the user is logged in oer not
+           useremail = getCookie('email');
+            if (useremail == "") {
+                window.location = "index.html"
+            }
+            var http = new XMLHttpRequest();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resObj = JSON.parse(this.responseText)
+                    if (resObj.status) {
+                        res = resObj
+                        var parentNode = document.getElementById('competition')
+                        resObj.competition.forEach(element => {
+                            competition_details.push(element)
+                            var options = document.createElement('option')
+                            options.setAttribute('value', element._id)
+                            options.innerHTML = element.competition_name;
+                            parentNode.appendChild(options)
+                        });
+                        document.getElementById('username').innerHTML = resObj.user_details[0].name
+                        document.getElementById('uemail').innerHTML = resObj.user_details[0].email
+                        document.getElementById('college').innerHTML = resObj.user_details[0].institution
+                        options.prefill.name = resObj.user_details[0].name
+                        options.prefill.email = resObj.user_details[0].email
+                        options.prefill.contact = res.user_details[0].phone_no
+
+                    }
+                }
+            }
+            http.open("post", "/user/validate", true)
+            http.setRequestHeader("Content-Type", "application/json")
+            http.send(JSON.stringify({ email: useremail }))
+        }
+    </script>
+</body>
+
+</html>

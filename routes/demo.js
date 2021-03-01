@@ -5,6 +5,10 @@ const router = express.Router();
 //importing the user model package
 const userModel = require('../model/user.model')
 //select alll events
+router.get('/',(req,res)=>{
+    res.redirect('/index.html')
+})
+
 router.get('/event', function (req, res, next) {
     userModel.find({}, { _id: 0,__v:0 }, (err, data) => {
         if (!err) {

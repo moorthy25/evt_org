@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .main {
+            background: linear-gradient(to right top, red, yellow, lightblue, lightseagreen);
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .content {
+            background-color: rgb(255, 255, 255);
+            height: 80vh;
+            opacity: .5;
+            border-radius: 10px;
+            margin: auto;
+            display: flex;
+            /* backdrop-filter: blur(.8); */
+            width: 80%;
+
+        }
+
+        .ins_cont {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="content">
+            <div class="ins_cont">
+                <img src="https://miefly.com/wp-content/uploads/2020/11/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
+                    alt="">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
