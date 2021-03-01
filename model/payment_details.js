@@ -5,25 +5,26 @@ let paymentSchema = new schema({
     paymentid: {
         type: String,
         index: true,
-        required: true
     },
     orderid:{
         type: String,
         required: true
     },
     signature:{
-        type: String,
-        required: true
+        type: String
     },
     date: {
-        type: Date,
+        type: String,
         default: new Date()
     },
     amount: {
         type: Number, 
         required: true
     },
-    success_status: Boolean
+    success_status: {
+        type:Boolean,
+        default:false
+    }
 })
 
 paymentModel=mongoose.model('payment_details',paymentSchema)
