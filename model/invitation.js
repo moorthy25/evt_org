@@ -2,15 +2,8 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema;
 
 let invitaionSchema = new schema({
-    id: {
-        type: String,
-        index: true,
-        unique: true,
-        trim: true,
-        required: true
-    },
     name: String,
-    emailid: {
+    email: {
         type: String,
         required: true,
         match: /.+\@.+\..+/,
