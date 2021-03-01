@@ -36,8 +36,9 @@ align-self: center; */
             <ul class="navList">
                 <li value="home" onclick="toggle(this.value)">Home</li>
                 <li value="competition" onclick="toggle(this.value)">Competition</li>
-                <li><a href="index.html" onclick="logout()">Logout</a></li>
+                <li><a  onclick="logout()">Logout</a></li>
             </ul>
+            <!-- href="index.html" -->
         </div>
         <div id="competition_div">
             <label for="">Registered Competitions:</label>
@@ -129,6 +130,10 @@ align-self: center; */
     </div>
     <script>
 var compet_id;
+function logout(){
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location="login.html"
+}
         function fetch_price(com_id) {
             document.getElementById('amt').innerHTML=""
             compet_id=com_id

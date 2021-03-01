@@ -68,7 +68,7 @@ router.post('/payment', function (req, res) {
                 res.send({ status: true, order: order })
                 //participateModel.create({ person_id: req.body.email, competition_id: req.body.competition_id }).then((success) => res.send({ status: true, order: order }), (fail) => { console.log('participate Model create is getting error');
                    // res.send({ status: false })})
-            }, (fail) =>{console.log('paymentModel.findBy is getting error')
+            }, (fail) =>{console.log('paymentModel findBy is getting error')
                  res.send({ status: false })
         })
         });
@@ -87,6 +87,17 @@ router.post('/participant', function (req, res) {
     }, function (fail) {
         console.log('Error while insertion')
         res.send({ error: "Error while insertion" })
+    })
+})
+
+router.post('/login_validate', function (req, res) {
+    personModule.find({email:req.body.email,password:req.body.pass},{email:1}).then(function (success) {
+       
+        res.send(success)
+        
+    }, function (fail) {
+        console.log('Error with login table')
+        res.send({ status:false })
     })
 })
 
