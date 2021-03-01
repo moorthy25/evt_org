@@ -2,15 +2,8 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema;
 
 let personSchema = new schema({
-    id: {
-        type: String,
-        index: true,
-        unique: true,
-        trim: true,
-        required: true
-    },
     name: String,
-    emailid: {
+    email: {
         type: String,
         required: true,
         match: /.+\@.+\..+/,
@@ -20,6 +13,6 @@ let personSchema = new schema({
     institution: String
 })
 
-personModule=mongoose.Model('persons_details',personSchema)
+personModule=mongoose.model('persons_details',personSchema)
 
 module.exports=personModule

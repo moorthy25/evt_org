@@ -22,6 +22,8 @@ app.use('/demo', require('./routes/demo'))
 
 app.use('/admin', require('./routes/admin'))
 
+app.use('/user', require('./routes/user'))
+
 app.use(function (err, req, res, next) {
     try{if (err.keyPattern.mobile) {
         // console.dir(req)
