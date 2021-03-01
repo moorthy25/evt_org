@@ -17,21 +17,85 @@
         }
 
         .home {
+            padding: 10%;
             width: auto;
             height: 100vh;
-            /* display: flex; */
-            /* align-items: center; */
-            /* background: linear-gradient(rgba(10,225,130,0.5),rgba(100,225,0,0.7)); */
             display: flex;
-            align-items: center;
-            /* align-content: center;
-align-self: center; */
+            /* align-items: center; */
+            background: linear-gradient(rgba(10,225,130,0.5),rgba(100,225,0,0.7));
+             
         }
+        .viewInvitee{
+            box-shadow: 0px 0px 9px 3px rgb(94, 36, 36);
+            border-radius: 4%;
+            background: navajowhite;
+            width: max-content;
+            padding: 2%;
+        }
+        /* table{
+            border: 2px solid black;
+        } */
+        table tr td{
+            border-bottom:2px solid rgb(111, 116, 55);
+            border-collapse: collapse;
+        }
+        .addInvitee{
+            box-shadow: 0px 0px 9px 3px rgb(94, 36, 36);
+            max-width: max-content;
+            margin: 5%;
+            border-radius: 4%;
+            background: navajowhite;
+            padding: 3%;
+        }
+        .addInvitee *{
+            padding: 15px;
+            margin: 4%;
+            
+        }
+        .addInvitee input[type='button']{
+            display: block;
+            background: darkseagreen;
+            border:none;
+            box-shadow: 0px 0px 9px 3px rgb(94, 36, 36);
+        }
+        .addInvitee input[type='button']:hover{
+            background: rgba(47, 152, 201, 0.678);
+            transition: 0.2s;
+        }
+        .addInvitee input[type='button']:click{
+            box-shadow: 0px 0px 9px 3px rgb(94, 36, 36);
+            transition: 0.2s;
+        }
+        .addInvitee input[type='button']:active{
+            border: none;
+        }
+        #mailbtn{
+            padding: 4%;
+            background-color: deepskyblue;
+            font-size: 3rem;
+            border:none;
+        }
+        #mailbtn:hover{
+            background-color: dodgerblue;
+            transition: 0.2s;
+            box-shadow: 3px 2px 19px 4px #13bbe6;
+        }
+        h1{
+    color: rgb(121 51 10);
+    padding: 10px;
+    top:20px;
+    font-size: 3rem;
+    position: absolute;
+    width: fit-content;
+    display: inline-block;
+    text-shadow: 0px 1px 13px black;
+}
     </style>
 </head>
 
 <body>
     <div class="home">
+        <h1>Invitation Mailler</h1>
         <div class="viewInvitee">
             <label for="">List of invitee</label>
             <table id="inviteeList">
@@ -64,7 +128,10 @@ align-self: center; */
             http.send(JSON.stringify({ message: document.getElementById('message').innerText }))
         }
         function addInvitee() {
-
+            
+           if((document.getElementById('name').value==""||undefined||null)||(document.getElementById('email').value==""||undefined||null)){
+               return
+           }
 
             var http = new XMLHttpRequest();
             http.onreadystatechange = function () {
@@ -83,7 +150,6 @@ align-self: center; */
             }
             http.open("post", "/admin/addInvitee", true)
             http.setRequestHeader("Content-Type", "application/json")
-            console.log(JSON.stringify({ name: document.getElementById('name').value, email: document.getElementById('email').value }))
             http.send(JSON.stringify({ name: document.getElementById('name').value, email: document.getElementById('email').value }))
 
         }
