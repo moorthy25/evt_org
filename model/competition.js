@@ -10,9 +10,12 @@ let competitionSchema = new schema({
     price: {
          type: Number
     },
-    rules_pdf_path: String
+    rules_pdf_path: {
+        type:String,
+        default: null
+    }
 })
 
-competitionModel=mongoose.Model('competitions',competitionSchema)
+competitionModel=mongoose.model('competitions',competitionSchema)
 
 module.exports=competitionModel

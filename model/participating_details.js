@@ -19,6 +19,6 @@ let participateSchema = new schema({
     competition_id: String
 })
 
-participateModel=mongoose.Model('participate_details',participateSchema)
+participateModel=mongoose.model('participate_details',participateSchema)
 
 module.exports=participateModel

@@ -26,6 +26,6 @@ let paymentSchema = new schema({
     success_status: Boolean
 })
 
-paymentModel=mongoose.Model('payment_details',paymentSchema)
+paymentModel=mongoose.model('payment_details',paymentSchema)
 
 module.exports=paymentModel
