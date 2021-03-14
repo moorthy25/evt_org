@@ -6,9 +6,12 @@ let paymentSchema = new schema({
         type: String,
         index: true,
     },
+    payment_id: {
+        type: String,
+        index: true,
+    },
     orderid:{
         type: String,
-        required: true
     },
     signature:{
         type: String
